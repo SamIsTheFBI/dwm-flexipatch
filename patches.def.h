@@ -159,7 +159,7 @@
 #define BAR_STATUS2D_PATCH 1
 
 /* Supplementary patch should you want to disable alpha for the status2d section */
-#define BAR_STATUS2D_NO_ALPHA_PATCH 0
+#define BAR_STATUS2D_NO_ALPHA_PATCH 1
 
 /* Addition to the status2d patch that allows the use of terminal colors (color0 through color15)
  * from xrdb in the status, allowing programs like pywal to change statusbar colors.
@@ -172,7 +172,7 @@
 /* The systray patch adds systray for the status bar.
  * https://dwm.suckless.org/patches/systray/
  */
-#define BAR_SYSTRAY_PATCH 0
+#define BAR_SYSTRAY_PATCH 1
 
 /* Show tag symbols in the bar. */
 #define BAR_TAGS_PATCH 1
@@ -712,7 +712,7 @@
  * the urgency bit on the named window. This patch activates the window instead.
  * https://dwm.suckless.org/patches/focusonnetactive/
  */
-#define FOCUSONNETACTIVE_PATCH 0
+#define FOCUSONNETACTIVE_PATCH 1
 
 /* Send "fake signals" to dwm for handling, using xsetroot. This will not conflict with the
  * status bar, which also is managed using xsetroot.
@@ -725,7 +725,7 @@
  * again it shows the bar and restores the layout that was active before going fullscreen.
  * https://dwm.suckless.org/patches/fullscreen/
  */
-#define FULLSCREEN_PATCH 0
+#define FULLSCREEN_PATCH 1
 
 /* This patch provides a keybinding to rotate all clients in the currently selected
  * area (master or stack) without affecting the other area.
@@ -893,7 +893,7 @@
  * https://github.com/szatanjl/dwm/commit/1529909466206016f2101457bbf37c67195714c8
  * https://dwm.suckless.org/patches/alpha/dwm-fixborders-6.2.diff
  */
-#define NO_TRANSPARENT_BORDERS_PATCH 0
+#define NO_TRANSPARENT_BORDERS_PATCH 1
 
 /* Port of InstantWM's on_empty_keys functionality allowing keybindings that apply only when
  * a tag is empty. An example use case is being able to launch applications with first hand
@@ -992,7 +992,7 @@
  * This takes precedence over the resizecorners patch.
  * https://github.com/bakkeby/patches/blob/master/dwm/dwm-resizepoint-6.2.diff
  */
-#define RESIZEPOINT_PATCH 0
+#define RESIZEPOINT_PATCH 1
 
 /* Adds a keyboard shortcut to restart dwm or alternatively by using kill -HUP dwmpid.
  * Additionally dwm can quit cleanly by using kill -TERM dwmpid.
@@ -1205,7 +1205,7 @@
  *
  * https://dwm.suckless.org/patches/swallow/
  */
-#define SWALLOW_PATCH 0
+#define SWALLOW_PATCH 1
 
 /* This patch depends on the pertag patch and makes it possible to switch focus with a single
  * shortcut (MOD+s) instead of having to think if you should use mod-j or mod-k for reaching
@@ -1241,7 +1241,7 @@
  * https://github.com/bakkeby/patches/blob/master/dwm/dwm-switchtag-6.2.diff
  * Also see https://dwm.suckless.org/patches/switchtotag
  */
-#define SWITCHTAG_PATCH 0
+#define SWITCHTAG_PATCH 1
 
 /* This patch transforms the monocle layout into a "tabbed" layout if more than one window is
  * present on the monocle view. This patch has been added for demonstration purposes only and has
@@ -1403,7 +1403,7 @@
  * when the mouse cursor is (a) on a different screen or (b) on top of a different window.
  * https://dwm.suckless.org/patches/warp/
  */
-#define WARP_PATCH 0
+#define WARP_PATCH 1
 
 /* Sometimes a single application opens different windows depending on the task
  * at hand and this is often reflected in the WM_WINDOW_ROLE(STRING) x property.

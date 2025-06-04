@@ -4,6 +4,8 @@
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 #define CMD(...)   { .v = (const char*[]){ __VA_ARGS__, NULL } }
 
+#include <X11/XF86keysym.h>
+
 /* appearance */
 #if ROUNDED_CORNERS_PATCH
 static const unsigned int borderpx       = 0;   /* border pixel of windows */
@@ -94,15 +96,15 @@ static const int statusmon               = 0;
 static const int statusmon               = 'A';
 #endif // BAR_STATUSALLMONS_PATCH | BAR_STATICSTATUS_PATCH
 #if BAR_STATUSPADDING_PATCH
-static const int horizpadbar             = 2;   /* horizontal padding for statusbar */
+static const int horizpadbar             = 0;   /* horizontal padding for statusbar */
 static const int vertpadbar              = 0;   /* vertical padding for statusbar */
 #endif // BAR_STATUSPADDING_PATCH
 #if BAR_STATUSBUTTON_PATCH
 static const char buttonbar[]            = "<O>";
 #endif // BAR_STATUSBUTTON_PATCH
 #if BAR_SYSTRAY_PATCH
-static const unsigned int systrayspacing = 2;   /* systray spacing */
-static const int showsystray             = 0;   /* 0 means no systray */
+static const unsigned int systrayspacing = 0;   /* systray spacing */
+static const int showsystray             = 1;   /* 0 means no systray */
 #endif // BAR_SYSTRAY_PATCH
 #if BAR_TAGLABELS_PATCH
 static const char ptagf[] = "[%s %s]";          /* format of a tag label */
@@ -261,7 +263,7 @@ static char selfloatbgcolor[]            = "#117799";
 #endif // BAR_FLEXWINTITLE_PATCH
 
 #if BAR_ALPHA_PATCH
-static const unsigned int baralpha = 0xd0;
+static const unsigned int baralpha = OPAQUE;
 static const unsigned int borderalpha = OPAQUE;
 static const unsigned int alphas[][3] = {
 	/*                       fg      bg        border     */
@@ -509,10 +511,13 @@ static const Rule rules[] = {
 	RULE(.wintype = WTYPE "TOOLBAR", .isfloating = 1)
 	RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)
 	RULE(.class = "Gimp", .tags = 1 << 4)
-	RULE(.class = "Google-chrome", .instance = "google-chrome", .tags = 1 << 1)
-	RULE(.class = "TelegramDesktop", .instance = "telegram-desktop", .tags = 1 << 2)
-	RULE(.class = "PPSSPPSDL", .instance = "PPSSPPSDL", .tags = 1 << 4)
-	RULE(.class = "Pcsx2", .instance = "pcsx2", .tags = 1 << 4)
+	RULE(.class = "Google-chrome", .instance = "google-chrome", .tags = 1 << 1, .noswallow = 1, .isterminal = 0, .switchtag = 3)
+	RULE(.class = "TelegramDesktop", .instance = "telegram-desktop", .tags = 1 << 2, .noswallow = 1, .isterminal = 0, .switchtag = 3)
+	RULE(.class = "PPSSPPSDL", .instance = "PPSSPPSDL", .tags = 1 << 4, .switchtag = 3)
+	RULE(.class = "AppRun.wrapped", .instance = "AppRun.wrapped", .title = "PCSX2 v2.0.2", .tags = 1 << 4, .switchtag = 3)
+	RULE(.class = "Nemo", .instance = "nemo", .tags = 1 << 6, .noswallow = 1, .switchtag = 3)
+	RULE(.title = "nmtui", .noswallow = 1, .isterminal = 1, .isfloating = 1)
+	RULE(.title = "htop", .noswallow = 1, .isterminal = 1, .isfloating = 1)
 	#if RENAMED_SCRATCHPADS_PATCH
 	RULE(.instance = "spterm", .scratchkey = 's', .isfloating = 1)
 	#elif SCRATCHPADS_PATCH
@@ -879,6 +884,8 @@ static const char *dmenucmd[] = {
 	"-nf", normfgcolor,
 	"-sb", selbgcolor,
 	"-sf", selfgcolor,
+  "-h", "30",
+  "-y", "5",
 	#if BAR_DMENUMATCHTOP_PATCH
 	topbar ? NULL : "-b",
 	#endif // BAR_DMENUMATCHTOP_PATCH
@@ -1021,7 +1028,7 @@ static const Key keys[] = {
 
   /*__App_Shortcuts__*/
   /* modifier               key         function      argument */
-  {MODKEY|ShiftMask,       XK_p,        spawn,      {.v = dmenucmd} },
+  {MODKEY,                 XK_p,        spawn,      {.v = dmenucmd} },
   {MODKEY|ShiftMask,       XK_Return,   spawn,      {.v = termcmd } },
   {MODKEY|ShiftMask,       XK_w,        spawn,      {.v = browsercmd} },
   {MODKEY|ShiftMask,       XK_m,        spawn,      {.v = chatapp} },
@@ -1225,9 +1232,9 @@ static const Key keys[] = {
 	#if XRDB_PATCH || XRESOURCES_PATCH
 	{ MODKEY|ShiftMask,             XK_r,         xrdb,                   {.v = NULL } },
 	#endif // XRDB_PATCH | XRESOURCES_PATCH
-	{ MODKEY,                       XK_t,          setlayout,              {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,          setlayout,              {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,          setlayout,              {.v = &layouts[2]} },
+	// { MODKEY,                       XK_t,          setlayout,              {.v = &layouts[0]} },
+	// { MODKEY,                       XK_f,          setlayout,              {.v = &layouts[1]} },
+	// { MODKEY,                       XK_m,          setlayout,              {.v = &layouts[2]} },
 	#if COLUMNS_LAYOUT
 	{ MODKEY,                       XK_c,          setlayout,              {.v = &layouts[3]} },
 	#endif // COLUMNS_LAYOUT
@@ -1457,6 +1464,31 @@ static const Key keys[] = {
   { MODKEY|ALTKEY,        XK_Up,          spawn,                  SHCMD("xrandr --output eDP --rotate normal") },
   { MODKEY|ALTKEY,        XK_Down,        spawn,                  SHCMD("xrandr --output eDP --rotate inverted") },
 
+  /*__Xf86/Multimedia_Keys_(mostly)__*/
+  /* modifier,          key,                      function,     argument */
+  { 0,                  XF86XK_AudioMute,         spawn,        SHCMD("~/.local/bin/volume tmute")},
+  { MODKEY,             XK_F6,                    spawn,        SHCMD("~/.local/bin/volume tmute")},
+  { 0,                  XF86XK_AudioRaiseVolume,  spawn,        SHCMD("~/.local/bin/volume incr")},
+  { MODKEY,             XK_F8,                    spawn,        SHCMD("~/.local/bin/volume incr")},
+  { 0,                  XF86XK_AudioLowerVolume,  spawn,        SHCMD("~/.local/bin/volume decr")},
+  { MODKEY,             XK_F7,                    spawn,        SHCMD("~/.local/bin/volume decr")},
+  { 0,                  XF86XK_MonBrightnessUp,   spawn,        SHCMD("~/.local/bin/shine incr")},
+  { MODKEY,             XK_F3,                    spawn,        SHCMD("~/.local/bin/shine incr")},
+  { 0,                  XF86XK_MonBrightnessDown, spawn,        SHCMD("~/.local/bin/shine decr")},
+  { MODKEY,             XK_F2,                    spawn,        SHCMD("~/.local/bin/shine decr")},
+  { 0,                  XK_Print,                 spawn,        SHCMD("~/.local/bin/screencap")},
+  { MODKEY,             XK_Print,                 spawn,        SHCMD("~/.local/bin/screencap fullsave")},
+  { ShiftMask,          XK_Print,                 spawn,        SHCMD("~/.local/bin/screencap selectcopy")},
+  { MODKEY|ShiftMask,   XK_Print,                 spawn,        SHCMD("~/.local/bin/screencap selectsave")},
+  { ControlMask,        XK_Print,                 spawn,        SHCMD("~/.local/bin/screencap actwincopy")},
+  { MODKEY|ControlMask, XK_Print,                 spawn,        SHCMD("~/.local/bin/screencap actwinsave")},
+  { 0,                  XF86XK_AudioNext,         spawn,        SHCMD("~/.local/bin/media next")},
+  { MODKEY,             XK_F11,                   spawn,        SHCMD("~/.local/bin/media next")},
+  { 0,                  XF86XK_AudioPrev,         spawn,        SHCMD("~/.local/bin/media prev")},  
+  { MODKEY,             XK_F9,                    spawn,        SHCMD("~/.local/bin/media prev")},
+  { 0,                  XF86XK_AudioPlay,         spawn,        SHCMD("~/.local/bin/media toggle")},
+  { MODKEY,             XK_F10,                   spawn,        SHCMD("~/.local/bin/media toggle")},
+  { MODKEY,             XK_z,                     spawn,        SHCMD("~/.local/bin/sleepp")},
 };
 
 #if KEYMODES_PATCH
