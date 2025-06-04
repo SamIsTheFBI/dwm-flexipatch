@@ -516,12 +516,14 @@ static const Rule rules[] = {
 	RULE(.class = "PPSSPPSDL", .instance = "PPSSPPSDL", .tags = 1 << 4, .switchtag = 3)
 	RULE(.class = "AppRun.wrapped", .instance = "AppRun.wrapped", .title = "PCSX2 v2.0.2", .tags = 1 << 4, .switchtag = 3)
 	RULE(.class = "Nemo", .instance = "nemo", .tags = 1 << 6, .noswallow = 1, .switchtag = 3)
-	RULE(.title = "nmtui", .noswallow = 1, .isterminal = 1, .isfloating = 1)
-	RULE(.title = "htop", .noswallow = 1, .isterminal = 1, .isfloating = 1)
+	RULE(.class = "st-256color", .instance = "st-256color", .noswallow = 0, .isterminal = 1, .isfloating = 0)
+	RULE(.class = "cool-retro-term", .instance = "cool-retro-term", .noswallow = 0, .isterminal = 1, .isfloating = 0)
 	#if RENAMED_SCRATCHPADS_PATCH
 	RULE(.instance = "spterm", .scratchkey = 's', .isfloating = 1)
 	#elif SCRATCHPADS_PATCH
 	RULE(.instance = "spterm", .tags = SPTAG(0), .isfloating = 1)
+	RULE(.class = "st-256color", .instance = "st-256color", .title = "nmtui", .tags = SPTAG(1), .noswallow = 0, .isterminal = 1, .isfloating = 1)
+	RULE(.class = "st-256color", .instance = "st-256color", .title = "htop", .tags = SPTAG(2), .noswallow = 0, .isterminal = 1, .isfloating = 1)
 	#endif // SCRATCHPADS_PATCH
 };
 
@@ -950,7 +952,7 @@ ResourcePref resources[] = {
 	{ "selfgcolor",             STRING,    &selfgcolor },
 	{ "selbgcolor",             STRING,    &selbgcolor },
 	{ "selbordercolor",         STRING,    &selbordercolor },
-	{ "selfloatcolor",          STRING,    &selfloatcolor },
+	{ "selfloatcolor",          STRING,    &selbordercolor },
 	{ "titlenormfgcolor",       STRING,    &titlenormfgcolor },
 	{ "titlenormbgcolor",       STRING,    &titlenormbgcolor },
 	{ "titlenormbordercolor",   STRING,    &titlenormbordercolor },
