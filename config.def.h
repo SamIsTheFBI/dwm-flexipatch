@@ -512,9 +512,10 @@ static const Rule rules[] = {
 	RULE(.wintype = WTYPE "SPLASH", .isfloating = 1)
 	RULE(.class = "Gimp", .tags = 1 << 4)
 	RULE(.class = "Google-chrome", .instance = "google-chrome", .tags = 1 << 1, .noswallow = 1, .isterminal = 0, .switchtag = 3)
-	RULE(.class = "TelegramDesktop", .instance = "telegram-desktop", .tags = 1 << 2, .noswallow = 1, .isterminal = 0, .switchtag = 3)
+	RULE(.class = "TelegramDesktop", .instance = "Telegram", .tags = 1 << 2, .noswallow = 1, .isterminal = 0, .switchtag = 3)
 	RULE(.class = "PPSSPPSDL", .instance = "PPSSPPSDL", .tags = 1 << 4, .switchtag = 3)
 	RULE(.class = "AppRun.wrapped", .instance = "AppRun.wrapped", .title = "PCSX2 v2.0.2", .tags = 1 << 4, .switchtag = 3)
+	RULE(.class = "mpv", .tags = 1 << 5, .noswallow = 1, .switchtag = 3)
 	RULE(.class = "Nemo", .instance = "nemo", .tags = 1 << 6, .noswallow = 1, .switchtag = 3)
 	RULE(.class = "st-256color", .instance = "st-256color", .noswallow = 0, .isterminal = 1, .isfloating = 0)
 	RULE(.class = "cool-retro-term", .instance = "cool-retro-term", .noswallow = 0, .isterminal = 1, .isfloating = 0)
@@ -895,7 +896,7 @@ static const char *dmenucmd[] = {
 };
 static const char *termcmd[]  = { "st", NULL };
 static const char *browsercmd[]     = { "google-chrome-stable",          NULL };
-static const char *chatapp[]        = { "telegram-desktop",  NULL };
+static const char *chatapp[]        = { "Telegram",  NULL };
 static const char *fileman[]        = { "nemo",            NULL };
 static const char *jgmenucmd[]  = { "jgmenu_run", NULL };
 
@@ -1040,7 +1041,7 @@ static const Key keys[] = {
     { MODKEY,      XK_q,      spawn,      SHCMD("~/.local/bin/search")},
   { MODKEY,      XK_w,      spawn,      SHCMD("~/.local/bin/watchmenu")},
   { MODKEY,      XK_e,      spawn,      SHCMD("~/.local/bin/charmap")},
-  { MODKEY,      XK_r,      spawn,      SHCMD("rofi -show drun -show-icons -theme ~/.config/rofi/rofitheme.rasi")},
+  { MODKEY,      XK_r,      spawn,      SHCMD("rofi -show drun -show-icons -theme ~/.config/rofi/applauncher.rasi")},
   { MODKEY,      XK_t,      spawn,      SHCMD("~/.local/bin/colorscheme-changer")},
   { MODKEY,      XK_y,      spawn,      SHCMD("~/.local/bin/playt")},
   { MODKEY,      XK_u,      spawn,      SHCMD("~/.local/bin/udsearch")},
