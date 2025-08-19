@@ -1480,6 +1480,7 @@ static const Key keys[] = {
   { 0,                  XF86XK_MonBrightnessDown, spawn,        SHCMD("~/.local/bin/shine decr")},
   { MODKEY,             XK_F2,                    spawn,        SHCMD("~/.local/bin/shine decr")},
   { 0,                  XK_Print,                 spawn,        SHCMD("~/.local/bin/screencap")},
+  { ShiftMask,          XK_Page_Up,               spawn,        SHCMD("~/.local/bin/screencap")},
   { MODKEY,             XK_Print,                 spawn,        SHCMD("~/.local/bin/screencap fullsave")},
   { ShiftMask,          XK_Print,                 spawn,        SHCMD("~/.local/bin/screencap selectcopy")},
   { MODKEY|ShiftMask,   XK_Print,                 spawn,        SHCMD("~/.local/bin/screencap selectsave")},
